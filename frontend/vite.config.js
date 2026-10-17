@@ -1,5 +1,4 @@
-// frontend/vite.config.js
-import { defineConfig } from 'vitest/config'; // импорт из vitest/config
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -13,20 +12,19 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-      },
-      '/media': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-      },
+      '/api': { target: 'http://127.0.0.1:8000', changeOrigin: true },
+      '/media': { target: 'http://127.0.0.1:8000', changeOrigin: true },
     },
   },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
+    resolve: {
+      alias: {
+        '@': path.resolve(import.meta.dirname, './src'),
+      },
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
@@ -35,8 +33,8 @@ export default defineConfig({
         'src/main.jsx',
         'src/app/App.jsx',
         'src/app/providers/**',
-        'src/shared/api/**', // Исключаем API-слой (мокается в тестах)
-        'src/shared/lib/constants.js', // Константы не имеют логики
+        'src/shared/api/**',
+        'src/shared/lib/constants.js',
         'src/test/**',
       ],
     },

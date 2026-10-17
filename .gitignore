@@ -1,0 +1,66 @@
+# ==================== PYTHON ====================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ==================== VIRTUALENV ====================
+.venv/
+venv/
+ENV/
+env/
+
+# ==================== DJANGO ====================
+*.log
+db.sqlite3
+db.sqlite3-journal
+/media/
+/static/
+/staticfiles/
+
+# ==================== ENV ====================
+.env
+.env.local
+.env.*.local
+
+# ==================== IDE ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ==================== LOGS ====================
+logs/
+*.log
+
+# ==================== COVERAGE ====================
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+frontend/coverage/
+
+# ==================== MISC ====================
+*.bak
+*.tmp
+

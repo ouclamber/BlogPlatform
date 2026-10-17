@@ -1,0 +1,60 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: blog2
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pip'
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc libpq-dev libssl-dev
+    - name: Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Django tests
+      env:
+        DB_HOST: localhost
+        DB_NAME: blog2
+        DB_USER: postgres
+        DB_PASSWORD: postgres
+        DB_ENGINE: django.db.backends.postgresql
+        SECRET_KEY: 'test-secret-key-for-ci'
+        DEBUG: 'True'
+        ALLOWED_HOSTS: 'localhost,127.0.0.1'
+      run: |
+        cd backend
+        coverage run --source='.' manage.py test
+        coverage report

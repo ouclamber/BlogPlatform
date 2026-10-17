@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -14,29 +14,6 @@ export default defineConfig({
     proxy: {
       '/api': { target: 'http://127.0.0.1:8000', changeOrigin: true },
       '/media': { target: 'http://127.0.0.1:8000', changeOrigin: true },
-    },
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/test/setup.js',
-    resolve: {
-      alias: {
-        '@': path.resolve(import.meta.dirname, './src'),
-      },
-    },
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'html'],
-      include: ['src/**/*.{js,jsx}'],
-      exclude: [
-        'src/main.jsx',
-        'src/app/App.jsx',
-        'src/app/providers/**',
-        'src/shared/api/**',
-        'src/shared/lib/constants.js',
-        'src/test/**',
-      ],
     },
   },
   build: {

@@ -13,22 +13,27 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Node.js 20
+    
+    - name: Set up Node.js 22
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '22'
         cache: 'npm'
         cache-dependency-path: frontend/package-lock.json
+        
     - name: Install dependencies
       run: |
         cd frontend
         npm ci
+        
     - name: Run tests
       run: |
         cd frontend
-        npm run coverage
+        npm run coverage -- --no-file-parallelism
+        
     - name: Build project
       run: |
         cd frontend

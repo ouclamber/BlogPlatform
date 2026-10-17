@@ -10,10 +10,10 @@ import {
   ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 
-import useAuthStore from '@/entities/user/model/authStore';
-import Avatar from '@/entities/user/ui/Avatar';
-import Button from '@/shared/ui/Button';
-import { DJANGO_ADMIN_URL } from '@/shared/lib/constants';
+import useAuthStore from '../../entities/user/model/authStore';
+import Avatar from '../../entities/user/ui/Avatar';
+import Button from '../../shared/ui/Button';
+import { DJANGO_ADMIN_URL } from '../../shared/lib/constants';
 
 export default function MainLayout() {
   const navigate = useNavigate();

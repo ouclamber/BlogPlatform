@@ -7,11 +7,11 @@ import {
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
-import Avatar from '@/entities/user/ui/Avatar';
-import Button from '@/shared/ui/Button';
-import useAuthStore from '@/entities/user/model/authStore';
-import useCommentsStore from '@/entities/comment/model/commentsStore';
-import { timeAgo } from '@/shared/lib/format';
+import Avatar from '../../entities/user/ui/Avatar';
+import Button from '../../shared/ui/Button';
+import useAuthStore from '../../entities/user/model/authStore';
+import useCommentsStore from '../../entities/comment/model/commentsStore';
+import { timeAgo } from '../../shared/lib/format';
 
 const getLevelStyle = (lvl) => {
   if (lvl === 0) return '';

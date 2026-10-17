@@ -2,18 +2,18 @@ import { useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-import usePostsStore from '@/entities/post/model/postsStore';
-import useAuthStore from '@/entities/user/model/authStore';
-import Avatar from '@/entities/user/ui/Avatar';
-import Button from '@/shared/ui/Button';
-import Loader from '@/shared/ui/Loader';
-import CommentList from '@/widgets/comment-list/CommentList';
-import PostActions from '@/features/post/actions/PostActions';
+import usePostsStore from '../../entities/post/model/postsStore';
+import useAuthStore from '../../entities/user/model/authStore';
+import Avatar from '../../entities/user/ui/Avatar';
+import Button from '../../shared/ui/Button';
+import Loader from '../../shared/ui/Loader';
+import CommentList from '../../widgets/comment-list/CommentList';
+import PostActions from '../../features/post/actions/PostActions';
 import {
   POST_STATUS_LABELS,
   POST_STATUS_COLORS,
-} from '@/shared/lib/constants';
-import { formatDate } from '@/shared/lib/format';
+} from '../../shared/lib/constants';
+import { formatDate } from '../../shared/lib/format';
 
 export default function PostDetailPage() {
   const { slug } = useParams();

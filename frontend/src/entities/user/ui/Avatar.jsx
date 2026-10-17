@@ -1,4 +1,4 @@
-import { MEDIA_URL } from '@/shared/lib/constants';
+import { MEDIA_URL } from '../../../shared/lib/constants';
 
 export default function Avatar({ user, size = 'md', className = '' }) {
   const sizes = {

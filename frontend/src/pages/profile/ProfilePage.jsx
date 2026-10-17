@@ -7,19 +7,19 @@ import {
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
-import apiClient from '@/shared/api/client';
-import { authAPI } from '@/shared/api/endpoints';
-import useAuthStore from '@/entities/user/model/authStore';
-import Avatar from '@/entities/user/ui/Avatar';
-import Button from '@/shared/ui/Button';
-import Loader from '@/shared/ui/Loader';
-import PostList from '@/widgets/post-list/PostList';
+import apiClient from '../../shared/api/client';
+import { authAPI } from '../../shared/api/endpoints';
+import useAuthStore from '../../entities/user/model/authStore';
+import Avatar from '../../entities/user/ui/Avatar';
+import Button from '../../shared/ui/Button';
+import Loader from '../../shared/ui/Loader';
+import PostList from '../../widgets/post-list/PostList';
 import {
   USER_ROLE_LABELS,
   USER_ROLE_COLORS,
   DJANGO_ADMIN_URL,
-} from '@/shared/lib/constants';
-import { formatDate, pluralize } from '@/shared/lib/format';
+} from '../../shared/lib/constants';
+import { formatDate, pluralize } from '../../shared/lib/format';
 
 export default function ProfilePage() {
   const { username } = useParams();

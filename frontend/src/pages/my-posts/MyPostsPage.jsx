@@ -10,17 +10,17 @@ import {
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
-import usePostsStore from '@/entities/post/model/postsStore';
-import useAuthStore from '@/entities/user/model/authStore';
-import Button from '@/shared/ui/Button';
-import Loader from '@/shared/ui/Loader';
-import EmptyState from '@/shared/ui/EmptyState';
-import Pagination from '@/shared/ui/Pagination';
+import usePostsStore from '../../entities/post/model/postsStore';
+import useAuthStore from '../../entities/user/model/authStore';
+import Button from '../../shared/ui/Button';
+import Loader from '../../shared/ui/Loader';
+import EmptyState from '../../shared/ui/EmptyState';
+import Pagination from '../../shared/ui/Pagination';
 import {
   POST_STATUS_LABELS,
   POST_STATUS_COLORS,
-} from '@/shared/lib/constants';
-import { timeAgo } from '@/shared/lib/format';
+} from '../../shared/lib/constants';
+import { timeAgo } from '../../shared/lib/format';
 
 const FILTERS = [
   { key: 'all', label: 'Все', status: null },

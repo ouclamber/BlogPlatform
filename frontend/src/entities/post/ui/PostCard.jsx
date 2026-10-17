@@ -7,14 +7,14 @@ import {
 } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 
-import Avatar from '@/entities/user/ui/Avatar';
-import useAuthStore from '@/entities/user/model/authStore';
-import usePostsStore from '@/entities/post/model/postsStore';
+import Avatar from '../../user/ui/Avatar';
+import useAuthStore from '../../user/model/authStore';
+import usePostsStore from '../../post/model/postsStore';
 import {
   POST_STATUS_LABELS,
   POST_STATUS_COLORS,
-} from '@/shared/lib/constants';
-import { timeAgo, truncate } from '@/shared/lib/format';
+} from '../../../shared/lib/constants';
+import { timeAgo, truncate } from '../../../shared/lib/format';
 
 function PostCard({ post }) {
   const navigate = useNavigate();

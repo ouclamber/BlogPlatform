@@ -1,0 +1,71 @@
+# Локальный запуск всего проекта одной командой:
+#   copy backend\.env.example backend\.env   (и заполнить)
+#   docker compose up --build -d
+# Тесты (PostgreSQL): docker compose exec backend python manage.py test --noinput
+# Фронтенд: http://localhost:5173   API/Swagger: http://localhost:8000/api/docs/
+services:
+  db:
+    image: postgres:16-alpine
+    # Имя БД, пользователь и пароль берутся из backend/.env (DB_NAME/DB_USER/DB_PASSWORD).
+    env_file:
+      - ./backend/.env
+    # Символы \r (если .env сохранён в Windows) отбрасываются.
+    entrypoint:
+      - sh
+      - -c
+      - |
+        clean() { printf '%s' "$$1" | tr -d '\r'; }
+        export POSTGRES_DB="$$(clean "$${DB_NAME:-blog2}")"
+        export POSTGRES_USER="$$(clean "$${DB_USER:-postgres}")"
+        export POSTGRES_PASSWORD="$$(clean "$${DB_PASSWORD:-}")"
+        if [ -z "$$POSTGRES_PASSWORD" ]; then
+          echo "ОШИБКА: DB_PASSWORD не задан в backend/.env" >&2
+          exit 1
+        fi
+        echo "PostgreSQL: база '$$POSTGRES_DB', пользователь '$$POSTGRES_USER'"
+        exec docker-entrypoint.sh postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Порт наружу не публикуется: бэкенд ходит в БД по внутренней сети Docker (db:5432).
+    healthcheck:
+      # -h 127.0.0.1 — ждём настоящий сервер, а не временный (при первой инициализации).
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  backend:
+    build: ./backend
+    restart: on-failure
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    user: "0:0"  # dev: исходники примонтированы с хоста
+    volumes:
+      - ./backend:/app
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./backend/.env
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000/api
+        VITE_MEDIA_URL: http://localhost:8000
+        VITE_DJANGO_ADMIN_URL: http://localhost:8000/admin/
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

@@ -3,10 +3,16 @@ name: Create Release
 on:
   push:
     tags:
-      - 'v*.*.*'   # Срабатывает только при пуше тега, например v1.0.0
+      - 'v*.*.*'   # Запускается при пуше тега, например v0.0.2
+  # Ручной запуск: Actions → Create Release → Run workflow (укажите тег)
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Тег релиза, например v0.0.2'
+        required: true
 
 permissions:
-  contents: write  # Обязательно! Без этого не сможет создать релиз [citation:3][citation:6]
+  contents: write  # нужно для создания релиза
 
 jobs:
   build-and-release:
@@ -32,12 +38,14 @@ jobs:
           cd frontend
           npm run build
 
-      # --- Создаем GitHub Release ---
+      - name: Pack frontend build
+        run: |
+          cd frontend/dist
+          zip -r ../../frontend-dist.zip .
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          # Автоматически генерирует описание на основе коммитов [citation:13]
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           generate_release_notes: true
-          # Прикрепляем собранный фронтенд (папка dist) как zip-архив
-          files: |
-            frontend/dist/**
+          files: frontend-dist.zip
